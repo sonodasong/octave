@@ -1,8 +1,8 @@
 0;
 
 function out = get_sample(x, y, n)
-	out = cat(3, rand(x, y));
-	for i = 1 : (n - 1)
+	out = zeros(x, y, 0);
+	for i = 1 : n
 		out = cat(3, out, rand(x, y));
 	end
 end
@@ -15,17 +15,24 @@ function out = get_var(in)
 	out = var(in, 1, 3);
 end
 
-a = get_sample(3, 4, 1);
+function out = get_var_m(in1, in2)
+	sum = zeros(size(in1)(1), size(in2)(2), 0);
+	for i = 1 : size(in1)(3)
+		for j = 1 : size(in2)(3)
+			sum = cat(3, sum, in1(:, :, i) * in2(:, :, j));
+		end
+	end
+	out = get_var(sum);
+end
+
+a = get_sample(1, 1, 10);
 ea = get_exp(a);
 va = get_var(a);
-b = get_sample(4, 3, 1);
+b = get_sample(1, 1, 10);
 eb = get_exp(b);
 vb = get_var(b);
 
-disp(size(a(3)));
-% c = a * b;
-% disp(c);
-
-% b = get_var(a)
-% disp(size(b));
-% disp(get_var(a));
+left = get_var_m(a, b);
+disp(left);
+right = va * (eb .* eb) + (ea .* ea) * vb + va * vb;
+disp(right);
